@@ -1,0 +1,3 @@
+config base
+	option enabled '0'
+	option mode 'controller'

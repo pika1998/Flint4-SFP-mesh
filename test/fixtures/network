@@ -1,0 +1,126 @@
+config interface 'loopback'
+	option device 'lo'
+	option proto 'static'
+	option ipaddr '127.0.0.1'
+	option netmask '255.0.0.0'
+
+
+config globals 'globals'
+	option ula_prefix 'fd00::/48'
+
+
+config device
+	option name 'br-lan'
+	option type 'bridge'
+	list ports 'eth1.1'
+	list ports 'lan5'
+	list ports 'lan6'
+	list ports 'lan7'
+	list ports 'lan8'
+	option macaddr '02:00:00:00:00:01'
+
+
+config device
+	option name 'eth1.1'
+	option macaddr '02:00:00:00:00:01'
+
+
+config device
+	option name 'lan5'
+	option macaddr '02:00:00:00:00:01'
+
+
+config device
+	option name 'lan6'
+	option macaddr '02:00:00:00:00:01'
+
+
+config device
+	option name 'lan7'
+	option macaddr '02:00:00:00:00:01'
+
+
+config device
+	option name 'lan8'
+	option macaddr '02:00:00:00:00:01'
+
+
+config interface 'lan'
+	option device 'br-lan'
+	option proto 'static'
+	option ipaddr '192.168.8.1'
+	option netmask '255.255.255.0'
+	option ip6assign '60'
+	option display_name 'main'
+	option isolate '0'
+
+
+config device 'secondwan_dev'
+	option name 'eth1.2'
+	option macaddr '02:00:00:00:00:01'
+
+
+config interface 'secondwan'
+	option device 'eth1.2'
+	option proto 'dhcp'
+	option metric '15'
+	option ipv6 '0'
+	option force_link '0'
+	option classlessroute '0'
+
+
+config interface 'secondwan6'
+	option proto 'dhcpv6'
+	option device '@secondwan'
+	option disabled '1'
+
+
+config device
+	option name 'eth2'
+	option macaddr '02:00:00:00:00:01'
+
+
+config interface 'wan'
+	option device 'eth2'
+	option proto 'dhcp'
+	option force_link '0'
+	option ipv6 '0'
+	option classlessroute '0'
+	option metric '10'
+
+
+config interface 'wan6'
+	option proto 'dhcpv6'
+	option device '@wan'
+	option disabled '1'
+
+
+config switch
+	option name 'switch0'
+	option reset '0'
+	option enable_vlan '1'
+
+
+config switch_vlan 'vlan_lan'
+	option device 'switch0'
+	option vlan '1'
+	option ports '0 1 2 3 5t'
+
+
+config switch_vlan 'vlan_secondwan'
+	option device 'switch0'
+	option vlan '2'
+	option ports '4 5t'
+
+
+config device
+	option name 'br-guest'
+	option type 'bridge'
+	option bridge_empty '1'
+
+
+config device
+	option name 'br-iot'
+	option type 'bridge'
+	option bridge_empty '1'
+
